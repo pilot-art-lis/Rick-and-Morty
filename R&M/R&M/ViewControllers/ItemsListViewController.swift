@@ -10,6 +10,7 @@ import UIKit
 class ItemsListViewController: UIViewController {
 
     static let identifier = "ItemsListViewController"
+    public var sectionTitle = ""
     private var collectionView: UICollectionView { return view as! UICollectionView }
     
     override func loadView() {
@@ -20,9 +21,12 @@ class ItemsListViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        navigationItem.title = "Section"
-        
         collectionView.backgroundColor = UIColor.init(red: 0.141, green: 0.157, blue: 0.184, alpha: 1)
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        title = sectionTitle
     }
     
 

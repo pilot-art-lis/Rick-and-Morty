@@ -10,6 +10,7 @@ import UIKit
 class MainScreenViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
     
     private var collectionView: UICollectionView { return view as! UICollectionView }
+    private let choosedSectionViewController = ItemsListViewController()
     
     override func loadView() {
         view = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
@@ -58,9 +59,8 @@ class MainScreenViewController: UIViewController, UICollectionViewDataSource, UI
     private func configureCell(cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: SectionCell.identifier, for: indexPath) as! SectionCell
         cell.layer.cornerRadius = 15
-        cell.button.setAttributedTitle(chooseImageAndTextForSection(indexPath: indexPath).0, for: .normal)
         cell.imageView.image = chooseImageAndTextForSection(indexPath: indexPath).1
-        cell.button.addTarget(self, action: #selector(sectionChoosed), for: .touchUpInside)
+        cell.sectionLabel.attributedText = chooseImageAndTextForSection(indexPath: indexPath).0
         return cell
     }
     
@@ -112,9 +112,10 @@ class MainScreenViewController: UIViewController, UICollectionViewDataSource, UI
         return UIEdgeInsets(top: 40, left: 0, bottom: 30, right: 0)
     }
     
-    //When tapped on the section
-    @objc func sectionChoosed() {
-        let choosedSectionViewController = ItemsListViewController()
+    //Section was selected
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let selectedCell = collectionView.cellForItem(at: indexPath) as! SectionCell
+        choosedSectionViewController.sectionTitle = selectedCell.sectionLabel.text ?? ""
         navigationController?.pushViewController(choosedSectionViewController, animated: true)
     }
 }

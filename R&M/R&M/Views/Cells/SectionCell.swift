@@ -12,13 +12,12 @@ class SectionCell: UICollectionViewCell {
     static let identifier = "SectionCell"
     private var cellView = UIView()
     public var imageView = UIImageView()
-    public var button = UIButton()
+    public var sectionLabel = UILabel()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
         
         cellView = UIView(frame: CGRect(origin: .zero, size: CGSize(width: contentView.bounds.size.width, height: contentView.bounds.size.height)))
-        button = UIButton(frame: CGRect(origin: .zero, size: CGSize(width: contentView.bounds.size.width, height: contentView.bounds.size.height)))
         
         contentView.layer.cornerRadius = 15
         contentView.layer.masksToBounds = true
@@ -33,24 +32,28 @@ class SectionCell: UICollectionViewCell {
         imageView.clipsToBounds = true
         imageView.alpha = 0.5
         
-        cellView.addSubview(imageView)
-        contentView.addSubview(cellView)
-        contentView.addSubview(button)
+        sectionLabel.frame = CGRect(origin: .zero, size: CGSize(width: cellView.bounds.size.width, height: cellView.bounds.size.height))
+        sectionLabel.center = cellView.center
+        sectionLabel.textAlignment = .center
         
-        configureConstraints(withView: cellView, imageView: imageView, button: button)
+        cellView.addSubview(imageView)
+        cellView.addSubview(sectionLabel)
+        contentView.addSubview(cellView)
+        
+        configureConstraints(withView: cellView, imageView: imageView, label: sectionLabel)
     }
     
-    private func configureConstraints(withView view: UIView, imageView: UIImageView, button: UIButton) {
+    private func configureConstraints(withView view: UIView, imageView: UIImageView, label: UILabel) {
         NSLayoutConstraint.activate([
             view.topAnchor.constraint(equalTo: contentView.topAnchor),
             view.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
             view.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
             view.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             
-            button.topAnchor.constraint(equalTo: view.topAnchor),
-            button.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-            button.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            button.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            label.topAnchor.constraint(equalTo: view.topAnchor),
+            label.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            label.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            label.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             
             imageView.topAnchor.constraint(equalTo: view.topAnchor),
             imageView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
