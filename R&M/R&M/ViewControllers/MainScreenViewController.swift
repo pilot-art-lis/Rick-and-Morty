@@ -116,8 +116,13 @@ class MainScreenViewController: UIViewController, UICollectionViewDataSource, UI
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let selectedCell = collectionView.cellForItem(at: indexPath) as! SectionCell
         choosedSectionViewController.sectionTitle = selectedCell.sectionLabel.text ?? ""
+        let searchController = UISearchController()
+        choosedSectionViewController.navigationItem.searchController = searchController
+        navigationItem.backButtonTitle = ""
         navigationController?.pushViewController(choosedSectionViewController, animated: true)
     }
+    
+    
 }
 
 

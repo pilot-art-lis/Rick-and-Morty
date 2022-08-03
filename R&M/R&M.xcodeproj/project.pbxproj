@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -15,6 +15,9 @@
 		ACD0E3DB2891B376008BE1CB /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = ACD0E3D92891B376008BE1CB /* LaunchScreen.storyboard */; };
 		ACD0E3ED28953A2E008BE1CB /* SectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACD0E3EC28953A2E008BE1CB /* SectionCell.swift */; };
 		ACEC3C602897E18100DE2FC9 /* ItemsListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACEC3C5F2897E18100DE2FC9 /* ItemsListViewController.swift */; };
+		ACEC3C67289AA03000DE2FC9 /* FilterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACEC3C66289AA03000DE2FC9 /* FilterViewController.swift */; };
+		ACEC3C6A289AE2CD00DE2FC9 /* ItemCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACEC3C69289AE2CC00DE2FC9 /* ItemCell.swift */; };
+		ACEC3C6E289AF32700DE2FC9 /* RickMortySwiftApi in Frameworks */ = {isa = PBXBuildFile; productRef = ACEC3C6D289AF32700DE2FC9 /* RickMortySwiftApi */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -28,6 +31,8 @@
 		ACD0E3DC2891B376008BE1CB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		ACD0E3EC28953A2E008BE1CB /* SectionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectionCell.swift; sourceTree = "<group>"; };
 		ACEC3C5F2897E18100DE2FC9 /* ItemsListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemsListViewController.swift; sourceTree = "<group>"; };
+		ACEC3C66289AA03000DE2FC9 /* FilterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterViewController.swift; sourceTree = "<group>"; };
+		ACEC3C69289AE2CC00DE2FC9 /* ItemCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -35,6 +40,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				ACEC3C6E289AF32700DE2FC9 /* RickMortySwiftApi in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -85,6 +91,7 @@
 			children = (
 				ACD0E3D22891B36C008BE1CB /* MainScreenViewController.swift */,
 				ACEC3C5F2897E18100DE2FC9 /* ItemsListViewController.swift */,
+				ACEC3C66289AA03000DE2FC9 /* FilterViewController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -101,6 +108,7 @@
 			isa = PBXGroup;
 			children = (
 				ACD0E3EC28953A2E008BE1CB /* SectionCell.swift */,
+				ACEC3C69289AE2CC00DE2FC9 /* ItemCell.swift */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -121,6 +129,9 @@
 			dependencies = (
 			);
 			name = "R&M";
+			packageProductDependencies = (
+				ACEC3C6D289AF32700DE2FC9 /* RickMortySwiftApi */,
+			);
 			productName = "R&M";
 			productReference = ACD0E3CB2891B36C008BE1CB /* R&M.app */;
 			productType = "com.apple.product-type.application";
@@ -148,6 +159,9 @@
 				Base,
 			);
 			mainGroup = ACD0E3C22891B36C008BE1CB;
+			packageReferences = (
+				ACEC3C6C289AF32700DE2FC9 /* XCRemoteSwiftPackageReference "Rick-and-Morty-Swift-API" */,
+			);
 			productRefGroup = ACD0E3CC2891B36C008BE1CB /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -175,9 +189,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				ACEC3C67289AA03000DE2FC9 /* FilterViewController.swift in Sources */,
 				ACD0E3D32891B36C008BE1CB /* MainScreenViewController.swift in Sources */,
 				ACD0E3ED28953A2E008BE1CB /* SectionCell.swift in Sources */,
 				ACD0E3CF2891B36C008BE1CB /* AppDelegate.swift in Sources */,
+				ACEC3C6A289AE2CD00DE2FC9 /* ItemCell.swift in Sources */,
 				ACD0E3D12891B36C008BE1CB /* SceneDelegate.swift in Sources */,
 				ACEC3C602897E18100DE2FC9 /* ItemsListViewController.swift in Sources */,
 			);
@@ -383,6 +399,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		ACEC3C6C289AF32700DE2FC9 /* XCRemoteSwiftPackageReference "Rick-and-Morty-Swift-API" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/benjaminbruch/Rick-and-Morty-Swift-API.git";
+			requirement = {
+				kind = revision;
+				revision = 7437cee124cdc99c82227022559b26295273c443;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		ACEC3C6D289AF32700DE2FC9 /* RickMortySwiftApi */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = ACEC3C6C289AF32700DE2FC9 /* XCRemoteSwiftPackageReference "Rick-and-Morty-Swift-API" */;
+			productName = RickMortySwiftApi;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = ACD0E3C32891B36C008BE1CB /* Project object */;
 }
