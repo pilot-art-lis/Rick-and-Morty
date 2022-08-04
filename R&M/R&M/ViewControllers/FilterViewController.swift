@@ -27,6 +27,12 @@ class FilterViewController: UIViewController {
     private var genderlessFilterButton = UIButton()
     private var unknownGenderFilterButton = UIButton()
     
+    private let resetStatusButton = UIButton()
+    private let resetGenderButton = UIButton()
+    private let applyFiltersButton = UIButton()
+    
+    private var scrollView = UIScrollView()
+    
     let notCheckedTextAttributes : [NSAttributedString.Key : Any] = [
         NSAttributedString.Key.foregroundColor: UIColor.white,
         NSAttributedString.Key.font: UIFont.systemFont(ofSize: 22) ]
@@ -35,8 +41,24 @@ class FilterViewController: UIViewController {
         super.viewDidLoad()
 
         view.backgroundColor = UIColor(red: 0.141, green: 0.157, blue: 0.184, alpha: 1)
+        scrollView = UIScrollView(frame: CGRect(x: 0, y: 0, width: view.bounds.size.width, height: view.bounds.size.height - 100))
         
-        configureButtons()
+        configureFilterButtons()
+        configureResetButton(button: resetStatusButton, offsetY: 120)
+        configureResetButton(button: resetGenderButton, offsetY: 360)
+        resetStatusButton.addTarget(self, action: #selector(resetStatusFilter), for: .touchUpInside)
+        resetGenderButton.addTarget(self, action: #selector(resetGenderFilter), for: .touchUpInside)
+        
+        applyFiltersButton.frame = CGRect(x: 0, y: Int(view.frame.size.height) - 80, width: Int(view.bounds.size.width) - 50, height: 50)
+        applyFiltersButton.center.x = view.center.x
+        applyFiltersButton.titleLabel?.font = .boldSystemFont(ofSize: 22)
+        applyFiltersButton.titleLabel?.textAlignment = .center
+        applyFiltersButton.setTitle("Apply filters", for: .normal)
+        applyFiltersButton.setTitleColor(UIColor(named: "AccentColor"), for: .normal)
+        applyFiltersButton.layer.borderWidth = 1
+        applyFiltersButton.layer.borderColor = CGColor(red: 0.741, green: 0.851, blue: 0.318, alpha: 1)
+        applyFiltersButton.layer.cornerRadius = 15
+        applyFiltersButton.addTarget(self, action: #selector(applyFilters), for: .touchUpInside)
         
         statusLabel.frame = CGRect(x: 30, y: 120, width: 110, height: 22)
         statusLabel.font = UIFont.boldSystemFont(ofSize: 22)
@@ -60,23 +82,36 @@ class FilterViewController: UIViewController {
         genderLabels[3].text = "Unknown"
         
         for i in 0..<statusLabels.count {
-            view.addSubview(statusLabels[i])
+            scrollView.addSubview(statusLabels[i])
         }
         
         for i in 0..<genderLabels.count {
-            view.addSubview(genderLabels[i])
+            scrollView.addSubview(genderLabels[i])
         }
         
-        view.addSubview(statusLabel)
-        view.addSubview(genderLabel)
+        let height = view.frame.minY + unknownGenderLabel.frame.maxY + 30
+        scrollView.contentSize = CGSize(width: view.frame.size.width, height: height)
+        
+        scrollView.addSubview(statusLabel)
+        scrollView.addSubview(genderLabel)
 
-        view.addSubview(aliveFilterButton)
-        view.addSubview(deadFilterButton)
-        view.addSubview(unknownStatusFilterButton)
-        view.addSubview(femaleFilterButton)
-        view.addSubview(maleFilterButton)
-        view.addSubview(genderlessFilterButton)
-        view.addSubview(unknownGenderFilterButton)
+        scrollView.addSubview(resetStatusButton)
+        scrollView.addSubview(resetGenderButton)
+        scrollView.addSubview(aliveFilterButton)
+        scrollView.addSubview(deadFilterButton)
+        scrollView.addSubview(unknownStatusFilterButton)
+        scrollView.addSubview(femaleFilterButton)
+        scrollView.addSubview(maleFilterButton)
+        scrollView.addSubview(genderlessFilterButton)
+        scrollView.addSubview(unknownGenderFilterButton)
+        view.addSubview(scrollView)
+        view.addSubview(applyFiltersButton)
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        title = "Filter"
     }
     
     private func configureLabels(labels: [UILabel], offsetY: Int) -> [UILabel] {
@@ -92,7 +127,7 @@ class FilterViewController: UIViewController {
         return newLabels
     }
     
-    private func configureButtons() {
+    private func configureFilterButtons() {
         aliveFilterButton.frame = CGRect(x: 30, y: 160, width: 22, height: 22)
         aliveFilterButton.backgroundColor = .white
         aliveFilterButton.layer.cornerRadius = 11
@@ -129,44 +164,93 @@ class FilterViewController: UIViewController {
         unknownGenderFilterButton.addTarget(self, action: #selector(pressUnknownGenderButton), for: .touchUpInside)
     }
     
+    private func configureResetButton(button: UIButton, offsetY: Int) {
+        button.frame = CGRect(x: Int(view.frame.maxX) - 110, y: offsetY, width: 110, height: 25)
+        button.titleLabel?.font = .boldSystemFont(ofSize: 22)
+        button.titleLabel?.textAlignment = .center
+        button.setTitle("Reset", for: .normal)
+        button.setTitleColor(UIColor(named: "ResetButtonInactive"), for: .normal)
+        button.isEnabled = false
+    }
+    
+    private func activateResetButton(button: UIButton) {
+        button.isEnabled = true
+        button.setTitleColor(UIColor(named: "ResetButtonActive"), for: .normal)
+    }
+    
     @objc func pressAliveButton() {
         aliveFilterButton.backgroundColor = UIColor(red: 0.741, green: 0.851, blue: 0.318, alpha: 1)
         aliveLabel.textColor = UIColor(red: 0.741, green: 0.851, blue: 0.318, alpha: 1)
+        activateResetButton(button: resetStatusButton)
     }
     
     @objc func pressDeadButton() {
         deadFilterButton.backgroundColor = UIColor(red: 0.741, green: 0.851, blue: 0.318, alpha: 1)
         deadLabel.textColor = UIColor(red: 0.741, green: 0.851, blue: 0.318, alpha: 1)
+        activateResetButton(button: resetStatusButton)
     }
     
     @objc func pressUnknownStatusButton() {
         unknownStatusFilterButton.backgroundColor = UIColor(red: 0.741, green: 0.851, blue: 0.318, alpha: 1)
         unknownStatusLabel.textColor = UIColor(red: 0.741, green: 0.851, blue: 0.318, alpha: 1)
+        resetStatusButton.isEnabled = true
+        resetStatusButton.setTitleColor(.systemRed, for: .normal)
     }
     
     @objc func pressFemaleButton() {
         femaleFilterButton.backgroundColor = UIColor(red: 0.741, green: 0.851, blue: 0.318, alpha: 1)
         femaleLabel.textColor = UIColor(red: 0.741, green: 0.851, blue: 0.318, alpha: 1)
+        activateResetButton(button: resetGenderButton)
     }
     
     @objc func pressMaleButton() {
         maleFilterButton.backgroundColor = UIColor(red: 0.741, green: 0.851, blue: 0.318, alpha: 1)
         maleLabel.textColor = UIColor(red: 0.741, green: 0.851, blue: 0.318, alpha: 1)
+        activateResetButton(button: resetGenderButton)
     }
     
     @objc func pressGenderlessButton() {
         genderlessFilterButton.backgroundColor = UIColor(red: 0.741, green: 0.851, blue: 0.318, alpha: 1)
         genderlessLabel.textColor = UIColor(red: 0.741, green: 0.851, blue: 0.318, alpha: 1)
+        activateResetButton(button: resetGenderButton)
     }
     
     @objc func pressUnknownGenderButton() {
         unknownGenderFilterButton.backgroundColor = UIColor(red: 0.741, green: 0.851, blue: 0.318, alpha: 1)
         unknownGenderLabel.textColor = UIColor(red: 0.741, green: 0.851, blue: 0.318, alpha: 1)
+        activateResetButton(button: resetGenderButton)
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
+    @objc func resetStatusFilter() {
+        aliveLabel.textColor = .white
+        deadLabel.textColor = .white
+        unknownStatusLabel.textColor = .white
         
-        title = "Filter"
+        aliveFilterButton.backgroundColor = .white
+        deadFilterButton.backgroundColor = .white
+        unknownStatusFilterButton.backgroundColor = .white
+        
+        resetStatusButton.setTitleColor(UIColor(named: "ResetButtonInactive"), for: .normal)
+        resetStatusButton.isEnabled = false
+    }
+    
+    @objc func resetGenderFilter() {
+        femaleLabel.textColor = .white
+        maleLabel.textColor = .white
+        genderlessLabel.textColor = .white
+        unknownGenderLabel.textColor = .white
+        
+        femaleFilterButton.backgroundColor = .white
+        maleFilterButton.backgroundColor = .white
+        genderlessFilterButton.backgroundColor = .white
+        unknownGenderFilterButton.backgroundColor = .white
+        
+        resetGenderButton.setTitleColor(UIColor(named: "ResetButtonInactive"), for: .normal)
+        resetGenderButton.isEnabled = false
+    }
+    
+    @objc func applyFilters() {
+        let n: Int! = self.navigationController?.viewControllers.count
+        navigationController?.popToViewController(navigationController?.viewControllers[n-2] ?? MainScreenViewController(), animated: true)
     }
 }
