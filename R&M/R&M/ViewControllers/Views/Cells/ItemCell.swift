@@ -19,7 +19,7 @@ class ItemCell: UICollectionViewCell {
         
         contentView.layer.cornerRadius = 15
         contentView.layer.masksToBounds = true
-        contentView.backgroundColor = .white
+        contentView.backgroundColor = .darkGray
         
         imageView.frame = CGRect(origin: .zero, size: CGSize(width: contentView.bounds.size.width, height: contentView.bounds.size.height))
         imageView.center.x = contentView.bounds.midX
@@ -31,9 +31,7 @@ class ItemCell: UICollectionViewCell {
         itemLabel.center.x = contentView.bounds.midX
         itemLabel.center.y = contentView.bounds.maxY - itemLabel.frame.height/2
         itemLabel.textAlignment = .center
-        itemLabel.backgroundColor = .green
-        itemLabel.alpha = 0.5
-        itemLabel.text = "Text"
+        itemLabel.backgroundColor = UIColor.white.withAlphaComponent(0.5)
         
         imageView.addSubview(itemLabel)
         contentView.addSubview(imageView)

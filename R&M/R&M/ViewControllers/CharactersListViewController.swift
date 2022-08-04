@@ -5,14 +5,18 @@
 //  Created by Artem on 01/08/2022.
 //
 
+import Foundation
 import UIKit
+import Combine
+import RickMortySwiftApi
 
-class ItemsListViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
+class CharactersListViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
 
     static let identifier = "ItemsListViewController"
     public var sectionTitle = ""
     private var collectionView: UICollectionView { return view as! UICollectionView }
     private let searchBar = UISearchController()
+    private let choosedCharactersViewController = CharacterViewController()
     
     override func loadView() {
         view = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
@@ -31,7 +35,7 @@ class ItemsListViewController: UIViewController, UICollectionViewDataSource, UIC
         
         collectionView.register(ItemCell.self, forCellWithReuseIdentifier: ItemCell.identifier)
         
-        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "FilterIcon"), style: .plain, target: FilterViewController(), action: #selector(filterTapped))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "FilterIcon"), style: .plain, target: self, action: #selector(filterTapped))
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -40,7 +44,9 @@ class ItemsListViewController: UIViewController, UICollectionViewDataSource, UIC
     }
     
     @objc func filterTapped() {
-
+        let filterViewController = FilterViewController()
+        navigationItem.backButtonTitle = ""
+        navigationController?.pushViewController(filterViewController, animated: true)
     }
     
     //UICollectionViewDataSource protocol implementation
@@ -49,13 +55,25 @@ class ItemsListViewController: UIViewController, UICollectionViewDataSource, UIC
     }
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return 3
+        return 1
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ItemCell.identifier, for: indexPath) as! ItemCell
         cell.layer.cornerRadius = 15
         
+        let textAttributes : [NSAttributedString.Key : Any] = [
+            NSAttributedString.Key.foregroundColor: UIColor.black,
+            NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 22) ]
+        
+        let attributedText = NSAttributedString(string: "Text", attributes: textAttributes)
+        cell.itemLabel.attributedText = attributedText
+        
+        if indexPath.row == 0 {
+            cell.imageView.image = UIImage(named: "Morty")
+            let attributedText = NSAttributedString(string: "Morty", attributes: textAttributes)
+            cell.itemLabel.attributedText = attributedText
+        }
         return cell
     }
     
@@ -69,6 +87,14 @@ class ItemsListViewController: UIViewController, UICollectionViewDataSource, UIC
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-        return UIEdgeInsets(top: 0, left: 15, bottom: 30, right: 15)
+        return UIEdgeInsets(top: 15, left: 15, bottom: 30, right: 15)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let selectedCell = collectionView.cellForItem(at: indexPath) as! ItemCell
+        choosedCharactersViewController.characterTitle = selectedCell.itemLabel.text ?? ""
+        navigationItem.backButtonTitle = ""
+        choosedCharactersViewController.characterImage.image = selectedCell.imageView.image
+        navigationController?.pushViewController(choosedCharactersViewController, animated: true)
     }
 }

@@ -10,7 +10,7 @@ import UIKit
 class MainScreenViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
     
     private var collectionView: UICollectionView { return view as! UICollectionView }
-    private let choosedSectionViewController = ItemsListViewController()
+    private let choosedSectionViewController = CharactersListViewController()
     
     override func loadView() {
         view = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
@@ -114,16 +114,22 @@ class MainScreenViewController: UIViewController, UICollectionViewDataSource, UI
     
     //Section was selected
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let selectedCell = collectionView.cellForItem(at: indexPath) as! SectionCell
-        choosedSectionViewController.sectionTitle = selectedCell.sectionLabel.text ?? ""
-        let searchController = UISearchController()
-        choosedSectionViewController.navigationItem.searchController = searchController
         navigationItem.backButtonTitle = ""
-        navigationController?.pushViewController(choosedSectionViewController, animated: true)
+        switch indexPath.item {
+        case 0:
+            let selectedCell = collectionView.cellForItem(at: indexPath) as! SectionCell
+            choosedSectionViewController.sectionTitle = selectedCell.sectionLabel.text ?? ""
+            let searchController = UISearchController()
+            choosedSectionViewController.navigationItem.searchController = searchController
+            navigationController?.pushViewController(choosedSectionViewController, animated: true)
+        case 1:
+            let locationsViewController = LocationsViewController()
+            navigationController?.pushViewController(locationsViewController, animated: true)
+        case 2:
+            let episodesViewController = EpisodesViewController()
+            navigationController?.pushViewController(episodesViewController, animated: true)
+        default:
+            break
+        }
     }
-    
-    
 }
-
-
-

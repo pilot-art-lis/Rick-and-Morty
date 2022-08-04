@@ -14,4 +14,10 @@ class FilterViewController: UIViewController {
 
         view.backgroundColor = UIColor.init(red: 0.141, green: 0.157, blue: 0.184, alpha: 1)
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        title = "Filter"
+    }
 }
