@@ -94,33 +94,14 @@ class CharacterViewController: UIViewController {
         
         title = characterTitle
         
-        loadedLables[0].frame = CGRect(origin: CGPoint(x: 25 + 65 + 20, y: 0), size: CGSize(width: view.bounds.size.width/2, height: 22))
-        loadedLables[0].center.y = view.bounds.midY + characterImage.bounds.size.height/5
-        loadedLables[0].attributedText = NSAttributedString(string: "Morty", attributes: loadedTextAttributes)
-        
-        loadedLables[1].frame = CGRect(origin: CGPoint(x: 25 + 75 + 20, y: 0), size: CGSize(width: view.bounds.size.width/2, height: 22))
-        loadedLables[1].center.y = view.bounds.midY + characterImage.bounds.size.height/5 + 44
-        loadedLables[1].attributedText = NSAttributedString(string: "Alive", attributes: loadedTextAttributes)
-        
-        loadedLables[2].frame = CGRect(origin: CGPoint(x: 25 + 90 + 20, y: 0), size: CGSize(width: view.bounds.size.width/2, height: 22))
-        loadedLables[2].center.y = view.bounds.midY + characterImage.bounds.size.height/5 + 88
-        loadedLables[2].attributedText = NSAttributedString(string: "Human", attributes: loadedTextAttributes)
-        
-        loadedLables[3].frame = CGRect(origin: CGPoint(x: 25 + 80 + 20, y: 0), size: CGSize(width: view.bounds.size.width/2, height: 22))
-        loadedLables[3].center.y = view.bounds.midY + characterImage.bounds.size.height/5 + 132
-        loadedLables[3].attributedText = NSAttributedString(string: "Male", attributes: loadedTextAttributes)
-        
-        loadedLables[4].frame = CGRect(origin: CGPoint(x: 25 + 80 + 20, y: 0), size: CGSize(width: view.bounds.size.width/2, height: 22))
-        loadedLables[4].center.y = view.bounds.midY + characterImage.bounds.size.height/5 + 176
-        loadedLables[4].attributedText = NSAttributedString(string: "Earth", attributes: loadedTextAttributes)
-        
-        loadedLables[5].frame = CGRect(origin: CGPoint(x: 25 + 95 + 20, y: 0), size: CGSize(width: view.bounds.size.width/2, height: 22))
-        loadedLables[5].center.y = view.bounds.midY + characterImage.bounds.size.height/5 + 220
-        loadedLables[5].attributedText = NSAttributedString(string: "Earth", attributes: loadedTextAttributes)
-        
-        loadedLables[6].frame = CGRect(origin: CGPoint(x: 25 + 90 + 20, y: 0), size: CGSize(width: view.bounds.size.width/2, height: 22))
-        loadedLables[6].center.y = view.bounds.midY + characterImage.bounds.size.height/5 + 264
-        loadedLables[6].attributedText = NSAttributedString(string: "1, 2...", attributes: loadedTextAttributes)
+        let parametersLabels = configureLabels(labels: loadedLables)
+        parametersLabels[0].attributedText = NSAttributedString(string: "Morty", attributes: loadedTextAttributes)
+        parametersLabels[1].attributedText = NSAttributedString(string: "Alive", attributes: loadedTextAttributes)
+        parametersLabels[2].attributedText = NSAttributedString(string: "Human", attributes: loadedTextAttributes)
+        parametersLabels[3].attributedText = NSAttributedString(string: "Male", attributes: loadedTextAttributes)
+        parametersLabels[4].attributedText = NSAttributedString(string: "Earth", attributes: loadedTextAttributes)
+        parametersLabels[5].attributedText = NSAttributedString(string: "Earth", attributes: loadedTextAttributes)
+        parametersLabels[6].attributedText = NSAttributedString(string: "1, 2...", attributes: loadedTextAttributes)
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -129,5 +110,15 @@ class CharacterViewController: UIViewController {
         for i in 0...6 {
             loadedLables[i].text = ""
         }
+    }
+    
+    private func configureLabels(labels: [UILabel]) -> [UILabel] {
+        var offsetY: CGFloat = 0
+        for i in 0..<labels.count {
+            labels[i].frame = CGRect(origin: CGPoint(x: 140, y: 0), size: CGSize(width: view.bounds.size.width/2, height: 22))
+            labels[i].center.y = view.bounds.midY + characterImage.bounds.size.height/5 + offsetY
+            offsetY += 44
+        }
+        return labels
     }
 }
